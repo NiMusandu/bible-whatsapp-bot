@@ -1,7 +1,7 @@
 from datetime import datetime, timedelta
 import json
 
-# Bible structure with chapter counts
+# Bible structure
 chapters = {
     "OT": [
         ("Genesis", 50), ("Exodus", 40), ("Leviticus", 27), ("Numbers", 36),
@@ -29,38 +29,35 @@ chapters = {
     ]
 }
 
-# Helper to flatten chapters into list like "Genesis 1"
+# Flatten chapters like "Genesis 1"
 def flatten(lst):
-    result = []
-    for book, cnt in lst:
-        for c in range(1, cnt + 1):
-            result.append(f"{book} {c}")
-    return result
+    return [f"{book} {c}" for book, cnt in lst for c in range(1, cnt + 1)]
 
 ot = flatten(chapters["OT"])
 nt = flatten(chapters["NT"])
 pg = flatten(chapters["P&G"])
 
-# M’Cheyne plan pattern: 2 OT, 1 NT, 1 P&G per day
 plan = []
 start = datetime(2025, 1, 1)
+
 for i in range(365):
     day = i + 1
     date = (start + timedelta(days=i)).strftime("%Y-%m-%d")
-    
-    ot_slice = ot[i*2:(i*2)+2]  # 2 OT chapters
-    nt_slice = nt[i:(i+1)]     # 1 NT chapter
-    pg_slice = pg[i:(i+1)]     # 1 Psalms/Gospels chapter
-    
+
+    # Prevent index overflows using modulo fallback
+    ot_slice = ot[i*2:i*2+2] if i*2+2 <= len(ot) else ot[-2:]
+    nt_slice = [nt[i % len(nt)]]
+    pg_slice = [pg[i % len(pg)]]
+
     plan.append({
-      "day": day,
-      "date": date,
-      "old_testament": "; ".join(ot_slice),
-      "new_testament": "; ".join(nt_slice),
-      "psalm_or_gospel": "; ".join(pg_slice)
+        "day": day,
+        "date": date,
+        "old_testament": "; ".join(ot_slice),
+        "new_testament": "; ".join(nt_slice),
+        "psalm_or_gospel": "; ".join(pg_slice)
     })
 
-with open("mcheyne_plan.json", "w") as f:
+with open("mcheyne_plan.json", "w", encoding='utf-8') as f:
     json.dump(plan, f, indent=2)
 
-print("Created mcheyne_plan.json with 365 entries.")
+print("✅ Created mcheyne_plan.json with 365 entries.")
