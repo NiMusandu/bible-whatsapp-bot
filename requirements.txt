@@ -2,8 +2,4 @@ fastapi
 uvicorn
 python-dotenv
 requests
-<<<<<<< HEAD
 apscheduler
-=======
-apscheduler
->>>>>>> 6d17b63baee6ee63b3eab406429e18cb63a58d6d
