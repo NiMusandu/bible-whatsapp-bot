@@ -3,4 +3,4 @@ uvicorn
 twilio
 apscheduler
 python-dotenv
-supabase-py
+supabase
