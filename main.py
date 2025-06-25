@@ -1,24 +1,15 @@
 import os
-import json
-from datetime import datetime
-from fastapi import FastAPI, Request
-from apscheduler.schedulers.background import BackgroundScheduler
-from dotenv import load_dotenv
 from supabase import create_client
 
-# Load .env
-load_dotenv()
-
-# ✅ Sanity check
 print("✅ DEBUG: SUPABASE_URL =", os.getenv("SUPABASE_URL"))
+print("✅ DEBUG: SUPABASE_KEY =", "✅ Loaded" if os.getenv("SUPABASE_KEY") else "❌ Missing")
 
-# Get credentials
 SUPABASE_URL = os.getenv("SUPABASE_URL")
 SUPABASE_KEY = os.getenv("SUPABASE_KEY")
+
 if not SUPABASE_URL or not SUPABASE_KEY:
     raise Exception("❌ Missing Supabase credentials")
 
-# Connect to Supabase
 supabase = create_client(SUPABASE_URL, SUPABASE_KEY)
 
 # Load reading plan
