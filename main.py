@@ -1,9 +1,15 @@
 import os
+import json
+from datetime import datetime
+from fastapi import FastAPI, Request
 from supabase import create_client
+from apscheduler.schedulers.background import BackgroundScheduler
 
+# ✅ DEBUG Supabase credentials
 print("✅ DEBUG: SUPABASE_URL =", os.getenv("SUPABASE_URL"))
 print("✅ DEBUG: SUPABASE_KEY =", "✅ Loaded" if os.getenv("SUPABASE_KEY") else "❌ Missing")
 
+# ✅ Supabase setup
 SUPABASE_URL = os.getenv("SUPABASE_URL")
 SUPABASE_KEY = os.getenv("SUPABASE_KEY")
 
@@ -11,6 +17,9 @@ if not SUPABASE_URL or not SUPABASE_KEY:
     raise Exception("❌ Missing Supabase credentials")
 
 supabase = create_client(SUPABASE_URL, SUPABASE_KEY)
+
+# ✅ FastAPI app
+app = FastAPI()
 
 # Load reading plan
 try:
