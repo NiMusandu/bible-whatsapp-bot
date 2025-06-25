@@ -1,3 +1,7 @@
+print("✅ DEBUG: SUPABASE_URL =", os.getenv("SUPABASE_URL"))
+print("✅ DEBUG: SUPABASE_KEY =", os.getenv("SUPABASE_KEY")[:6], "...")  # mask key
+
+
 from fastapi import FastAPI, Request
 from apscheduler.schedulers.background import BackgroundScheduler
 from datetime import datetime
