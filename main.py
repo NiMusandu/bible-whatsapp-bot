@@ -121,4 +121,4 @@ async def handle_webhook(request: Request):
             )
         }
 
-if __na
+if __name__ == "__main__":
