@@ -56,7 +56,7 @@ def send_whatsapp_message():
 app = FastAPI()
 
 scheduler = BackgroundScheduler(timezone="Africa/Nairobi")
-scheduler.add_job(send_whatsapp_message, "cron", hour=23, minute=24)
+scheduler.add_job(send_daily_reading, 'cron', hour=6, minute=0)
 scheduler.start()
 
 @app.get("/")
